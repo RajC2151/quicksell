@@ -37,18 +37,7 @@ export default function Header() {
                 </div>
             </Button>
         </Nav>
-        <Section>
-            <div className='container'>
-                <div className='row'>
-                    <div className='col-12 col-md-2'>tambe</div>
-                    <div className='col-12 col-md-2'>to do</div>
-                    <div className='col-12 col-md-2'>medium</div>
-                    <div className='col-12 col-md-2'>high</div>
-                    <div className='col-12 col-md-2'>low</div>
-
-                </div>
-            </div>
-        </Section>
+       
         </>
     );
 }
@@ -75,6 +64,4 @@ const Container1=styled.div`
 const Container2 =styled(Container1)`
 
 `
-const Section=styled.div`
-    
-`
+
