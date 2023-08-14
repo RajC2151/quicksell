@@ -1,14 +1,18 @@
+import React from 'react';
 import './App.css';
 import Header from './Components/Header';
 import Card from './Components/Card';
-import { useState, useEffect } from 'react';
+import { useState, createContext } from 'react';
 import Priority from './Components/Priority';
 import User from './Components/User';
 import Status from './Components/Status';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+const gbl=createContext();
+
 
 function App() {
+  const [prio,setPrio]=useState(true);
   // const [data, setData] = useState([]);
   // const fetchData=async()=>{
   //   try{
@@ -98,6 +102,7 @@ function App() {
   return (
 
 
+        <gbl.Provider value={{prio,setPrio}}>
     <div className="App">
       <Router>
         <Header />
@@ -106,12 +111,13 @@ function App() {
           <Route path="/priority" element={<Priority />} />
           <Route path="/user" element={<User />} />
         </Routes>
-
       </Router>
-
     </div>
+      </gbl.Provider>
+
 
   );
 }
 
 export default App;
+export {gbl};

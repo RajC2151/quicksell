@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { BsPlus, BsThreeDots } from "react-icons/bs";
+import { MdCancel } from "react-icons/md";
+import { FcApproval } from "react-icons/fc";
+
+import { FcCalendar,FcTodoList } from "react-icons/fc";
+import { FcClock } from "react-icons/fc";
 import styled from 'styled-components';
+import { gbl } from '../App';
 import Card from './Card';
-import { BsThreeDots, BsPlus } from "react-icons/bs";
 
 const API_URL = 'https://apimocha.com/quicksell/data';
 
@@ -24,12 +30,13 @@ const StatusColumn = styled.div`
 `;
 
 const ColumnHeading = styled.h2`
-display:flex;
-justify-content:space-between;
+  display:flex;
+  justify-content:space-between;
   font-size: 0.9rem;
   margin-bottom: 10px;
   color:#6e7074;
 `;
+
 function App() {
     const [groupedData, setGroupedData] = useState({
         Backlog: [],
@@ -38,6 +45,8 @@ function App() {
         Cancelled: [],
         Done: [],
     });
+    const gblInstance = useContext(gbl);
+
 
     useEffect(() => {
         fetch(API_URL)
@@ -55,18 +64,28 @@ function App() {
                     groupedByStatus[ticket.status].push(ticket);
                 });
 
+                if (gblInstance.prio) {
+                    for (const status in groupedByStatus) {
+                        groupedByStatus[status].sort((a, b) => b.priority - a.priority);
+                    }
+                } else {
+                    for (const status in groupedByStatus) {
+                        groupedByStatus[status].sort((a, b) => a.title.localeCompare(b.title));
+                    }
+                }
+
                 setGroupedData(groupedByStatus);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    }, [gblInstance.prio]);
 
     return (
-        <div>
+        <div >
             <StatusSection>
                 <StatusColumn>
                     <ColumnHeading>
                         <div>
-                            Backlog {groupedData.Backlog.length}
+                            <FcCalendar/>Backlog {groupedData.Backlog.length}
 
                         </div>
                         <div>
@@ -80,7 +99,7 @@ function App() {
                 <StatusColumn>
                     <ColumnHeading>
                         <div>
-                            To do {groupedData.Todo.length}
+                           <FcTodoList/> To do {groupedData.Todo.length}
 
                         </div>
                         <div>
@@ -94,7 +113,7 @@ function App() {
                 <StatusColumn>
                     <ColumnHeading>
                         <div>
-                            In progress {groupedData['In progress'].length}
+                            <FcClock/>  In progress {groupedData['In progress'].length}
 
                         </div>
                         <div>
@@ -108,7 +127,7 @@ function App() {
                 <StatusColumn>
                     <ColumnHeading>
                         <div>
-                            Done {groupedData.Done.length}
+                            <FcApproval /> Done {groupedData.Done.length}
 
                         </div>
                         <div>
@@ -122,7 +141,7 @@ function App() {
                 <StatusColumn>
                     <ColumnHeading>
                         <div>
-                            Cancelled {groupedData.Cancelled.length}
+                            <MdCancel /> Cancelled {groupedData.Cancelled.length}
 
                         </div>
                         <div>

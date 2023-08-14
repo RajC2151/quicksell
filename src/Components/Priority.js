@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Card from './Card';
 import React, { useEffect, useState } from 'react';
 import { BsThreeDots, BsPlus } from "react-icons/bs";
+import { TbAntennaBars1 } from "react-icons/tb";
 
 const API_URL = 'https://apimocha.com/quicksell/data';
 
@@ -56,6 +57,11 @@ export default function Priority() {
           groupedByPriority[ticket.priority].push(ticket);
         });
 
+        // Sort the tickets in ascending order of titles
+        for (const priority in groupedByPriority) {
+          groupedByPriority[priority].sort((a, b) => a.title.localeCompare(b.title));
+        }
+
         setGroupedByPriorityData(groupedByPriority);
       })
       .catch(error => console.error('Error fetching data:', error));
@@ -64,71 +70,21 @@ export default function Priority() {
   return (
     <div>
       <StatusSection>
-        <StatusColumn>
-          <ColumnHeading>
-            <div>
-              No priority {groupedByPriorityData[0].length}
-            </div>
-            <div>
-              <BsPlus /> <BsThreeDots />
-            </div>
-          </ColumnHeading>
-          {groupedByPriorityData[0].map(ticket => (
-            <Card title={ticket.title} id={ticket.id} tag={ticket.tag} />
-          ))}
-        </StatusColumn>
-        <StatusColumn>
-          <ColumnHeading>
-            <div>
-              Urgent {groupedByPriorityData[1].length}
-            </div>
-            <div>
-              <BsPlus /> <BsThreeDots />
-            </div>
-          </ColumnHeading>
-          {groupedByPriorityData[1].map(ticket => (
-            <Card title={ticket.title} id={ticket.id} tag={ticket.tag} />
-          ))}
-        </StatusColumn>
-        <StatusColumn>
-          <ColumnHeading>
-            <div>
-              High {groupedByPriorityData[2].length}
-            </div>
-            <div>
-              <BsPlus /> <BsThreeDots />
-            </div>
-          </ColumnHeading>
-          {groupedByPriorityData[2].map(ticket => (
-            <Card title={ticket.title} id={ticket.id} tag={ticket.tag} />
-          ))}
-        </StatusColumn>
-        <StatusColumn>
-          <ColumnHeading>
-            <div>
-              Medium {groupedByPriorityData[3].length}
-            </div>
-            <div>
-              <BsPlus /> <BsThreeDots />
-            </div>
-          </ColumnHeading>
-          {groupedByPriorityData[3].map(ticket => (
-            <Card title={ticket.title} id={ticket.id} tag={ticket.tag} />
-          ))}
-        </StatusColumn>
-        <StatusColumn>
-          <ColumnHeading>
-            <div>
-              Low {groupedByPriorityData[4].length}
-            </div>
-            <div>
-              <BsPlus /> <BsThreeDots />
-            </div>
-          </ColumnHeading>
-          {groupedByPriorityData[4].map(ticket => (
-            <Card title={ticket.title} id={ticket.id} tag={ticket.tag} />
-          ))}
-        </StatusColumn>
+        {Object.keys(groupedByPriorityData).map(priority => (
+          <StatusColumn key={priority}>
+            <ColumnHeading>
+              <div>
+                {priority === '0' ? 'No priority' : priority=== '4' ? 'Urgent' : priority==='3' ? 'High' : priority==='2' ? 'Medium' : 'Low'} {groupedByPriorityData[priority].length}
+              </div>
+              <div>
+                <BsPlus /> <BsThreeDots />
+              </div>
+            </ColumnHeading>
+            {groupedByPriorityData[priority].map(ticket => (
+              <Card title={ticket.title} id={ticket.id} tag={ticket.tag} />
+            ))}
+          </StatusColumn>
+        ))}
       </StatusSection>
     </div>
   );

@@ -6,7 +6,7 @@ export default function Card(props) {
     // border: '2px solid green',
     padding: '10px',
     borderRadius: '5px',
-    marginBottom: '10px',
+    marginBottom: '20px',
     boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.3)',
   };
 
@@ -40,7 +40,7 @@ export default function Card(props) {
       <div style={firstStyle}>
         <span>{props.id}</span>
         <img
-          src="https://media.licdn.com/dms/image/D4D35AQHssxSJWj1qbQ/profile-framedphoto-shrink_400_400/0/1681098636893?e=1692532800&v=beta&t=wJGTK3zGBLhWIRcOJAl7Poucq1S_k0zsNnzAakeMfiY"
+          src="https://media.licdn.com/dms/image/D4D03AQHiFu1I0wyu-w/profile-displayphoto-shrink_400_400/0/1664994478210?e=1697673600&v=beta&t=uIWiLmqsK5sBOXK5NyyDVbPpUlsCru82FgYvCQmyCcs"
           alt="Profile"
           style={imageStyle}
         />
